@@ -1,4 +1,4 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:simpleType name="servicecode" final="restriction">
         <xs:restriction base="xs:string">
             <xs:enumeration value="REST" />
@@ -6,7 +6,35 @@
         </xs:restriction>
     </xs:simpleType>
 
-   
+    <xs:attribute name="type">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="OAuthV2" />
+                <xs:enumeration value="AssignMessage" />
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+    
+    <xs:simpleType name="policyType">
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse" />
+            <xs:pattern value="[A-Za-z0-9\.\-]*"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="policyTypeWithAttribute">
+        <xs:simpleContent>
+            <xs:extension base="policyType">
+                <xs:attribute ref="type" use="required" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="policiesType">
+        <xs:sequence>
+            <xs:element type="policyTypeWithAttribute" name="policy" maxOccurs="unbounded" minOccurs="0"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
     <xs:element name="APIProxy">
         <xs:complexType>
@@ -44,16 +72,8 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="policies">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element type="xs:string" name="policy" maxOccurs="unbounded" minOccurs="0" >
-                          
-                            </xs:element>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element type="xs:string" name="fileResources" />
+                <xs:element name="policies" type="policiesType" />
+                <xs:element name="fileResources" type="xs:string"  />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
