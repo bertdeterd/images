@@ -1,4 +1,4 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://raw.githubusercontent.com">
     <xs:simpleType name="servicecode" final="restriction">
         <xs:restriction base="xs:string">
             <xs:enumeration value="REST" />
